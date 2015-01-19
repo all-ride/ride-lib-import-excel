@@ -61,7 +61,7 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
             throw new ImportException('Could not write spreadsheet: no file set');
         }
 
-        $writer = new PHPExcel_Writer_Excel2007($this-getExcel());
+        $writer = new PHPExcel_Writer_Excel2007($this->getExcel());
         $writer->save($file->getAbsolutePath());
     }
 

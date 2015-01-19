@@ -37,6 +37,14 @@ abstract class AbstractXlsProvider implements Provider {
     protected $columnNames;
 
     /**
+     * Constructs a new XLS Provider
+     * @param File $file
+     */
+    public function __construct(File $file) {
+        $this->setFile($file);
+    }
+
+    /**
      * Gets the instance of the PHPExcel
      * @return \PHPExcel
      */
