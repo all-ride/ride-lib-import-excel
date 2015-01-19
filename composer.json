@@ -21,7 +21,7 @@
 	},
     "autoload": {
         "psr-0": {
-            "ride\\library\\import\\": ["src/"]
+            "ride\\library\\import\\xls\\": ["src/"]
         }
     }
 }
