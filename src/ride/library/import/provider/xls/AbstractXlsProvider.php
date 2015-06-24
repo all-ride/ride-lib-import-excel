@@ -2,7 +2,8 @@
 
 namespace ride\library\import\provider\xls;
 
-use ride\library\import\provider\Provider;
+use ride\library\import\exception\ImportException;
+use ride\library\import\provider\FileProvider;
 use ride\library\system\file\File;
 
 use PHPExcel;
@@ -10,7 +11,7 @@ use PHPExcel;
 /**
  * Abstract import provider for the XLS file format
  */
-abstract class AbstractXlsProvider implements Provider {
+abstract class AbstractXlsProvider implements FileProvider {
 
     /**
      * Instance of the PHPExcel Object
@@ -37,6 +38,27 @@ abstract class AbstractXlsProvider implements Provider {
     protected $columnNames;
 
     /**
+     * Sets the file to read/write
+     * @param \ride\library\system\file\File $file
+     * @return null
+     */
+    public function setFile(File $file) {
+        $this->file = $file;
+    }
+
+    /**
+     * Gets the file to read/write
+     * @return \ride\library\system\file\File
+     */
+    public function getFile() {
+        if (!$this->file) {
+            throw new ImportException('Could not get the file: no file set');
+        }
+
+        return $this->file;
+    }
+
+    /**
      * Gets the instance of the PHPExcel
      * @return \PHPExcel
      */
@@ -54,23 +76,6 @@ abstract class AbstractXlsProvider implements Provider {
      */
     public function setExcel(PHPExcel $excel) {
         $this->excel = $excel;
-    }
-
-    /**
-     * Sets the file to read/write
-     * @param \ride\library\system\file\File $file
-     * @return null
-     */
-    public function setFile(File $file) {
-        $this->file = $file;
-    }
-
-    /**
-     * Gets the file to read/write
-     * @return \ride\library\system\file\File
-     */
-    public function getFile() {
-        return $this->file;
     }
 
     /**

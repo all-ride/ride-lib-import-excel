@@ -15,7 +15,7 @@
     ],
     "require": {
         "ride/lib-common": ">=0.1.0",
-        "ride/lib-import": ">=0.2.0",
+        "ride/lib-import": ">=0.3.0",
         "ride/lib-system": ">=0.3.0",
 		"phpoffice/phpexcel": "*"
 	},
