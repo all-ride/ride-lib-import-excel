@@ -2,7 +2,7 @@
     "name": "ride/lib-import-excel",
     "description": "Excel providers for the import library of the Ride framework",
     "license": "MIT",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "authors": [
         {
             "name": "Ward Brems",
