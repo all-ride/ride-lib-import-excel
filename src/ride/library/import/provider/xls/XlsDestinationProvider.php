@@ -2,7 +2,6 @@
 
 namespace ride\library\import\provider\xls;
 
-use ride\library\import\exception\ImportException;
 use ride\library\import\provider\DestinationProvider;
 use ride\library\import\Importer;
 
@@ -13,7 +12,6 @@ use PHPExcel_Writer_Excel2007;
  * Destination provider for the XLS file type.
  * This Provider uses the PHPExcel library to produce an XLS file.
  */
-
 class XlsDestinationProvider extends AbstractXlsProvider implements DestinationProvider {
 
     /**
@@ -38,16 +36,26 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
         $sheet = $excel->getSheet();
 
         $rowNumber = $this->getRowNumber();
+        $rowDiff = 1;
         $colNumber = 0;
 
         foreach ($row as $value) {
-            $sheet->setCellValueByColumnAndRow($colNumber, $rowNumber, $value);
+            if (is_array($value)) {
+                $rowIndex = 0;
+                do {
+                    $sheet->setCellValueByColumnAndRow($colNumber, $rowNumber + $rowIndex, array_shift($value));
+                    $rowIndex++;
+                } while ($value);
+
+                $rowDiff = max($rowDiff, $rowIndex);
+            } else {
+                $sheet->setCellValueByColumnAndRow($colNumber, $rowNumber, $value);
+            }
 
             $colNumber++;
         }
 
-        $rowNumber++;
-        $this->setRowNumber($rowNumber);
+        $this->setRowNumber($rowNumber + $rowDiff);
     }
 
     /**
@@ -57,9 +65,6 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
      */
     public function postImport() {
         $file = $this->getFile();
-        if (!$file) {
-            throw new ImportException('Could not write spreadsheet: no file set');
-        }
 
         $writer = new PHPExcel_Writer_Excel2007($this->getExcel());
         $writer->save($file->getAbsolutePath());

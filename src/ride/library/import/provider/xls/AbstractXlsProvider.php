@@ -2,7 +2,8 @@
 
 namespace ride\library\import\provider\xls;
 
-use ride\library\import\provider\Provider;
+use ride\library\import\exception\ImportException;
+use ride\library\import\provider\FileProvider;
 use ride\library\system\file\File;
 
 use PHPExcel;
@@ -10,19 +11,19 @@ use PHPExcel;
 /**
  * Abstract import provider for the XLS file format
  */
-abstract class AbstractXlsProvider implements Provider {
-
-    /**
-     * Instance of the PHPExcel Object
-     * @ var \PHPExcel
-     */
-    protected $excel;
+abstract class AbstractXlsProvider implements FileProvider {
 
     /**
      * Instance of the file to read or write
      * @var \ride\library\system\file\File
      */
     protected $file;
+
+    /**
+     * Instance of the PHPExcel Object
+     * @ var \PHPExcel
+     */
+    protected $excel;
 
     /**
      * Number of the row
@@ -38,30 +39,13 @@ abstract class AbstractXlsProvider implements Provider {
 
     /**
      * Constructs a new XLS Provider
-     * @param File $file
+     * @param \ride\library\system\file\File $file
+     * @return null
      */
-    public function __construct(File $file) {
-        $this->setFile($file);
-    }
-
-    /**
-     * Gets the instance of the PHPExcel
-     * @return \PHPExcel
-     */
-    public function getExcel() {
-        if (!$this->excel) {
-            $this->excel = $excel = new PHPExcel();
+    public function __construct(File $file = null) {
+        if ($file) {
+            $this->setFile($file);
         }
-
-        return $this->excel;
-    }
-
-    /**
-     * Sets the instance of PHPExcel
-     * @param \PHPExcel $excel
-     */
-    public function setExcel(PHPExcel $excel) {
-        $this->excel = $excel;
     }
 
     /**
@@ -78,7 +62,31 @@ abstract class AbstractXlsProvider implements Provider {
      * @return \ride\library\system\file\File
      */
     public function getFile() {
+        if (!$this->file) {
+            throw new ImportException('Could not get the file: no file set');
+        }
+
         return $this->file;
+    }
+
+    /**
+     * Sets the instance of PHPExcel
+     * @param \PHPExcel $excel
+     */
+    public function setExcel(PHPExcel $excel) {
+        $this->excel = $excel;
+    }
+
+    /**
+     * Gets the instance of the PHPExcel
+     * @return \PHPExcel
+     */
+    public function getExcel() {
+        if (!$this->excel) {
+            $this->excel = $excel = new PHPExcel();
+        }
+
+        return $this->excel;
     }
 
     /**
