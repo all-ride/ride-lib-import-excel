@@ -14,16 +14,16 @@ use PHPExcel;
 abstract class AbstractXlsProvider implements FileProvider {
 
     /**
-     * Instance of the PHPExcel Object
-     * @ var \PHPExcel
-     */
-    protected $excel;
-
-    /**
      * Instance of the file to read or write
      * @var \ride\library\system\file\File
      */
     protected $file;
+
+    /**
+     * Instance of the PHPExcel Object
+     * @ var \PHPExcel
+     */
+    protected $excel;
 
     /**
      * Number of the row
@@ -36,6 +36,17 @@ abstract class AbstractXlsProvider implements FileProvider {
      * @var array
      */
     protected $columnNames;
+
+    /**
+     * Constructs a new XLS Provider
+     * @param \ride\library\system\file\File $file
+     * @return null
+     */
+    public function __construct(File $file = null) {
+        if ($file) {
+            $this->setFile($file);
+        }
+    }
 
     /**
      * Sets the file to read/write
@@ -59,6 +70,14 @@ abstract class AbstractXlsProvider implements FileProvider {
     }
 
     /**
+     * Sets the instance of PHPExcel
+     * @param \PHPExcel $excel
+     */
+    public function setExcel(PHPExcel $excel) {
+        $this->excel = $excel;
+    }
+
+    /**
      * Gets the instance of the PHPExcel
      * @return \PHPExcel
      */
@@ -68,14 +87,6 @@ abstract class AbstractXlsProvider implements FileProvider {
         }
 
         return $this->excel;
-    }
-
-    /**
-     * Sets the instance of PHPExcel
-     * @param \PHPExcel $excel
-     */
-    public function setExcel(PHPExcel $excel) {
-        $this->excel = $excel;
     }
 
     /**
