@@ -38,9 +38,11 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
         $rowNumber = $this->getRowNumber();
         $rowDiff = 1;
         $colNumber = 0;
+        $singleColumns = array();
 
         foreach ($row as $value) {
             if (is_array($value)) {
+                // array value column
                 $rowIndex = 0;
                 do {
                     $sheet->setCellValueByColumnAndRow($colNumber, $rowNumber + $rowIndex, array_shift($value));
@@ -49,13 +51,27 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
 
                 $rowDiff = max($rowDiff, $rowIndex);
             } else {
+                // single value column
                 $sheet->setCellValueByColumnAndRow($colNumber, $rowNumber, $value);
+
+                $singleColumns[$colNumber] = $value;
             }
 
             $colNumber++;
         }
 
-        $this->setRowNumber($rowNumber + $rowDiff);
+        $newRowNumber = $rowNumber + $rowDiff;
+
+        // fill single columns up until the maximum of array columns
+        if ($rowDiff > 1) {
+            for ($i = $rowNumber; $i <= $newRowNumber; $i++) {
+                foreach ($singleColumns as $colNumber => $value) {
+                    $sheet->setCellValueByColumnAndRow($colNumber, $i, $value);
+                }
+            }
+        }
+
+        $this->setRowNumber($newRowNumber);
     }
 
     /**
