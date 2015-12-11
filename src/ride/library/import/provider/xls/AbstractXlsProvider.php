@@ -83,7 +83,7 @@ abstract class AbstractXlsProvider implements FileProvider {
      */
     public function getExcel() {
         if (!$this->excel) {
-            $this->excel = $excel = new PHPExcel();
+            $this->excel = new PHPExcel();
         }
 
         return $this->excel;
