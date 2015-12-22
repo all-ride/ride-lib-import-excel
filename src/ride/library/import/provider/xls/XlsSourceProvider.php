@@ -18,6 +18,7 @@ class XlsSourceProvider extends AbstractXlsProvider implements SourceProvider {
     public function __construct(File $file, $worksheetNumber = 0) {
         $this->setFile($file);
         $this->setWorksheetNumber($worksheetNumber);
+        $this->firstRowAreColumnNames = false;
     }
 
     /**
@@ -67,8 +68,8 @@ class XlsSourceProvider extends AbstractXlsProvider implements SourceProvider {
         } else {
             $this->columnNames = array();
 
-            for ($column = 'A'; $column != $this->highestColummNumber; $column++) {
-                $this->columnNames[$column . '1'] = $column . '1';
+            for ($column = 'A'; $column != $this->highestColumnNumber; $column++) {
+                $this->columnNames[$column] = $column;
             }
         }
 
