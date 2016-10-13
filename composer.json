@@ -2,7 +2,6 @@
     "name": "ride/lib-import-excel",
     "description": "Excel providers for the import library of the Ride framework",
     "license": "MIT",
-    "version": "0.4.1",
     "authors": [
         {
             "name": "Ward Brems",
@@ -14,10 +13,10 @@
         }
     ],
     "require": {
-        "ride/lib-common": ">=0.1.0",
-        "ride/lib-import": ">=0.3.0",
-        "ride/lib-system": ">=0.3.0",
-		"phpoffice/phpexcel": "*"
+        "ride/lib-common": "^1.0.0",
+        "ride/lib-import": "^1.0.0",
+        "ride/lib-system": "^1.0.0",
+        "phpoffice/phpexcel": "*"
 	},
     "autoload": {
         "psr-0": {
