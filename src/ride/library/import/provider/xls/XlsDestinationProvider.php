@@ -35,7 +35,7 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
 
         $rowNumber = $this->getRowNumber();
         $rowDiff = 1;
-        $colNumber = 0;
+        $colNumber = 1;
         $singleColumns = array();
 
         foreach ($row as $value) {
