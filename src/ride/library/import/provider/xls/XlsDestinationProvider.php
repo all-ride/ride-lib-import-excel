@@ -2,11 +2,9 @@
 
 namespace ride\library\import\provider\xls;
 
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use ride\library\import\provider\DestinationProvider;
 use ride\library\import\Importer;
-
-use PHPExcel;
-use PHPExcel_Writer_Excel2007;
 
 /*
  * Destination provider for the XLS file type.
@@ -33,7 +31,7 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
      */
     public function setRow(array $row) {
         $excel = $this->getExcel();
-        $sheet = $excel->getSheet();
+        $sheet = $excel->getSheet(0);
 
         $rowNumber = $this->getRowNumber();
         $rowDiff = 1;
@@ -82,7 +80,7 @@ class XlsDestinationProvider extends AbstractXlsProvider implements DestinationP
     public function postImport() {
         $file = $this->getFile();
 
-        $writer = new PHPExcel_Writer_Excel2007($this->getExcel());
+        $writer = new Xlsx($this->getExcel());
         $writer->save($file->getAbsolutePath());
     }
 

@@ -2,18 +2,19 @@
 
 namespace ride\library\import\provider\xls;
 
-use ride\library\import\provider\FileProvider;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use ride\library\import\exception\ImportException;
 use ride\library\import\provider\SourceProvider;
 use ride\library\import\Importer;
 use ride\library\system\file\File;
 
-use PHPExcel_IOFactory;
 
 class XlsSourceProvider extends AbstractXlsProvider implements SourceProvider {
-
     /**
      * Constructs a new source provider
-     * @param \ride\łibrary\system\file\File $file
+     *
+     * @param File $file
+     * @param int $worksheetNumber
      */
     public function __construct(File $file, $worksheetNumber = 0) {
         $this->setFile($file);
@@ -82,10 +83,10 @@ class XlsSourceProvider extends AbstractXlsProvider implements SourceProvider {
      */
     private function readFile() {
         try {
-            $inputFileType = PHPExcel_IOFactory::identify($this->file);
-            $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+            $inputFileType = IOFactory::identify($this->file);
+            $objReader = IOFactory::createReader($inputFileType);
             $objPHPExcel = $objReader->load($this->file);
-        } catch(Exception $exception) {
+        } catch(\Exception $exception) {
             throw new ImportException('Could not read file: ' . $this->file, 0, $exception);
         }
 

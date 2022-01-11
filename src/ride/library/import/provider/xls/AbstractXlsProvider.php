@@ -6,7 +6,7 @@ use ride\library\import\exception\ImportException;
 use ride\library\import\provider\FileProvider;
 use ride\library\system\file\File;
 
-use PHPExcel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 /**
  * Abstract import provider for the XLS file format
@@ -71,19 +71,19 @@ abstract class AbstractXlsProvider implements FileProvider {
 
     /**
      * Sets the instance of PHPExcel
-     * @param \PHPExcel $excel
+     * @param \PhpOffice\PhpSpreadsheet\Spreadsheet $excel
      */
-    public function setExcel(PHPExcel $excel) {
+    public function setExcel(Spreadsheet $excel) {
         $this->excel = $excel;
     }
 
     /**
      * Gets the instance of the PHPExcel
-     * @return \PHPExcel
+     * @return \PhpOffice\PhpSpreadsheet\Spreadsheet
      */
     public function getExcel() {
         if (!$this->excel) {
-            $this->excel = new PHPExcel();
+            $this->excel = new Spreadsheet();
         }
 
         return $this->excel;
